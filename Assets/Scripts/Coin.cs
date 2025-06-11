@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Coin : MonoBehaviour
 {
+    public AudioSource OnTakeAudio;
+
     void Start()
     {
         
@@ -13,6 +15,7 @@ public class Coin : MonoBehaviour
     {
         PlayerController playerController = collision.GetComponent<PlayerController>();
         ++playerController.countCoins;
-        Destroy(gameObject);
+        OnTakeAudio.Play();
+        Destroy(gameObject, OnTakeAudio.clip.length);
     }
 }

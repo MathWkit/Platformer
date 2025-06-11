@@ -23,35 +23,51 @@ public class PlayerController : MonoBehaviour
                 Debug.Log("you win");
             }
         }
-        
+
     }
 
     public Text CoinsCountText;
 
     private int _coinsCount;
-
+ 
     public int CoinsCountToWin = 4;
+
+    public Animator PlayerAnimator;
+
+    public const string IDLE_TRIGGER = "idle";
+    public const string RUN_TRIGGER = "run";
+    public const string JUMP_TRIGGER = "jump";
 
     void Start()
     {
         
     }
-
+    
     void Update()
     {
+        bool isRunning = false;
+
         if (Input.GetKey(KeyCode.D))
         {
             transform.position += new Vector3(PlayerSpeed * Time.deltaTime, 0.0f);
+            PlayerAnimator.SetTrigger(RUN_TRIGGER);
+            isRunning = true;
         }
         else if (Input.GetKey(KeyCode.A))
         {
             transform.position += new Vector3(-PlayerSpeed * Time.deltaTime, 0.0f);
+            PlayerAnimator.SetTrigger(RUN_TRIGGER);
+            isRunning = true;
         }
-        
+
+        if (!isRunning)
+        {
+            PlayerAnimator.SetTrigger(IDLE_TRIGGER);
+        }
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            PlayerRigidBody.AddForce(Vector3.up * PlayerJumpForce);
+            PlayerRigidBody.AddForce(Vector3.up * PlayerJumpForce, ForceMode2D.Impulse);
         }
     }
 }
